@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     private float timeR1 = 10f;
     private float timeLeft2;
 
+    private int turn_Value = 0;
+
     private void Start()
     {
         timeLeft    = timeRemaining;
@@ -45,14 +47,13 @@ public class GameManager : MonoBehaviour
             Instantiate(randomObject, new Vector3(-9f, Random.Range(-3f, 3f), 0f), Quaternion.identity);
         }
 
-
-
-
         SpawnBlocks();
 
         scoreTxT.text = "score: " + StaticClass.score.ToString();//updating score
 
-        GatherInput();
+        //Steer();
+        float toRotate = rotational_Speed * Time.deltaTime * turn_Value;
+        player.transform.RotateAround(this.transform.position, Vector3.forward, toRotate);
 
 
         if (StaticClass.isDeath == false)
@@ -86,18 +87,10 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-    private void GatherInput()
+    
+    public void Turn(int value)
     {
-        float toRotate = rotational_Speed * Time.deltaTime;//gathering input and rotating
-        if (Input.GetKey("d"))
-        {
-            player.transform.RotateAround(this.transform.position, Vector3.forward, -toRotate);
-        }
-        else if (Input.GetKey("a"))
-        {
-            player.transform.RotateAround(this.transform.position, Vector3.forward, toRotate);
-        }
+        turn_Value = value;
     }
 
     void OnDie()
