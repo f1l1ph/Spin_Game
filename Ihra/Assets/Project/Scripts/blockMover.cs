@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class blockMover : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer[] blocks;
-    [SerializeField] private GameObject[] blocksGMO;
+    [SerializeField] private SpriteRenderer[]   blocks;
+    [SerializeField] private GameObject[]       blocksGMO;
 
-    [SerializeField] private Sprite[] islands;
+    [SerializeField] private Sprite[]           islands;
 
-    [SerializeField] private float blockRotationSpeed;
+    [SerializeField] private float              blockRotationSpeed;
     //scaling stuff
-    [SerializeField] private float scaleSpeed;
-    [SerializeField] private float beginningScale = 3;
-    [SerializeField] private bool randomSpinning = false;
+    [SerializeField] private float              scaleSpeed;
+    [SerializeField] private float              beginningScale = 3;
+    [SerializeField] private bool               randomSpinning = false;
 
     int randomSpinner; 
-
 
     void Start()
     {
