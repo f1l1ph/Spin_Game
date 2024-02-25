@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject         player;
@@ -14,15 +15,18 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float              rotational_Speed;
     [SerializeField] private float              timeRemaining;
-    private float timeLeft;
 
+    private float timeLeft;
     private float timeR1 = 10f;
     private float timeLeft2;
 
-    private int turn_Value = 0;
+    private float turn_Value = 0;
+    private float sensitivity = 0;
 
     private void Start()
     {
+        sensitivity = PlayerPrefs.GetFloat(StaticClass.SensitivityKey, 1);
+
         timeLeft    = timeRemaining;
         timeLeft2   = timeR1;
 
@@ -52,7 +56,7 @@ public class GameManager : MonoBehaviour
         scoreTxT.text = "score: " + StaticClass.score.ToString();//updating score
 
         //Steer();
-        float toRotate = rotational_Speed * Time.deltaTime * turn_Value;
+        var toRotate = rotational_Speed * Time.deltaTime * turn_Value;
         player.transform.RotateAround(this.transform.position, Vector3.forward, toRotate);
 
 
@@ -61,12 +65,12 @@ public class GameManager : MonoBehaviour
             deathMenu.SetActive(false);
         }
 
-        if (StaticClass.isDeath == true)
+        if (StaticClass.isDeath)
         {
             OnDie();
         }
         
-        else if (Input.GetKeyDown(KeyCode.Escape) && StaticClass.pausedGame == true && StaticClass.isDeath == false)
+        else if (Input.GetKeyDown(KeyCode.Escape) && StaticClass.pausedGame && StaticClass.isDeath == false)
         {
             OnResume();
         }
@@ -90,7 +94,7 @@ public class GameManager : MonoBehaviour
     
     public void Turn(int value)
     {
-        turn_Value = value;
+        turn_Value = value * sensitivity;
     }
 
     void OnDie()
